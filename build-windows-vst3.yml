@@ -1,0 +1,38 @@
+name: Build MASTERING PRO 2.0 VST3
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Check out project
+        uses: actions/checkout@v4
+
+      - name: Configure x64 Release build
+        run: cmake -S . -B build -A x64
+
+      - name: Build VST3
+        run: cmake --build build --config Release --target MASTERING_PRO_2_VST3
+
+      - name: Find and package VST3
+        shell: pwsh
+        run: |
+          $plugin = Get-ChildItem -Path build -Directory -Filter '*.vst3' -Recurse | Select-Object -First 1
+          if (-not $plugin) {
+            $plugin = Get-ChildItem -Path build -Directory -Filter '*.vst3' -Recurse | Select-Object -First 1
+          }
+          if (-not $plugin) {
+            Write-Error 'VST3 bundle was not found. Check the build log.'
+          }
+          New-Item -ItemType Directory -Force -Path dist | Out-Null
+          Copy-Item -Recurse -Force $plugin.FullName dist/
+          Compress-Archive -Path (Join-Path 'dist' $plugin.Name) -DestinationPath 'MASTERING_PRO_2_VST3_Windows_x64.zip' -Force
+
+      - name: Upload ready-to-install VST3 bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: MASTERING-PRO-2-VST3-Windows-x64
+          path: MASTERING_PRO_2_VST3_Windows_x64.zip
+          if-no-files-found: error

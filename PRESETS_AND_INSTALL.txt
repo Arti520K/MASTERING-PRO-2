@@ -1,0 +1,12 @@
+MASTERING PRO 2.0
+Target: Windows 10 64-bit, FL Studio, VST3
+
+1. Extract the ZIP.
+2. Install Visual Studio 2022 (Desktop development with C++).
+3. Install CMake and Git.
+4. Run BUILD_WINDOWS.bat.
+5. Copy the resulting .vst3 folder into:
+   C:\Program Files\Common Files\VST3
+6. In FL Studio: Options > Manage plugins > Find plugins.
+
+This package contains source code, not a precompiled Windows binary.
