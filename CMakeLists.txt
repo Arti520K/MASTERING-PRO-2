@@ -19,7 +19,7 @@ juce_add_plugin(MASTERING_PRO_2
     PRODUCT_NAME "MASTERING PRO 2.0"
     IS_SYNTH FALSE NEEDS_MIDI_INPUT FALSE NEEDS_MIDI_OUTPUT FALSE
     IS_MIDI_EFFECT FALSE COPY_PLUGIN_AFTER_BUILD FALSE)
-
+juce_generate_juce_header(MASTERING_PRO_2)
 target_sources(MASTERING_PRO_2 PRIVATE
     PluginProcessor.cpp PluginProcessor.h
     PluginEditor.cpp PluginEditor.h)
